@@ -1,5 +1,6 @@
-from pathlib import Path
 import os
+from pathlib import Path
+
 from dotenv import load_dotenv
 
 load_dotenv(override=True)
@@ -40,8 +41,7 @@ ROOT_URLCONF = "online_school.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / '']
-        ,
+        "DIRS": [BASE_DIR / ""],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
