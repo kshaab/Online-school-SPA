@@ -1,7 +1,7 @@
 from rest_framework.routers import DefaultRouter
 
 from users.apps import UsersConfig
-from users.views import UserViewSet, PaymentsViewSet
+from users.views import PaymentsViewSet, UserViewSet
 
 app_name = "users"
 router = DefaultRouter()
