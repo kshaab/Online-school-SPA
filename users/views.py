@@ -6,8 +6,8 @@ from rest_framework.viewsets import ModelViewSet
 
 from users.models import Payments, User
 from users.permissions import IsOwnerOrReadOnly
-from users.serializers import PaymentsSerializer, UserPrivateSerializer, UserPublicSerializer, UserUpdateSerializer, \
-    UserCreateSerializer
+from users.serializers import (PaymentsSerializer, UserCreateSerializer, UserPrivateSerializer, UserPublicSerializer,
+                               UserUpdateSerializer)
 
 
 class UserCreateAPIView(generics.CreateAPIView):
@@ -29,6 +29,7 @@ class UserListAPIView(generics.ListAPIView):
 
 class UserRetrieveAPIView(generics.RetrieveAPIView):
     queryset = User.objects.all()
+    serializer_class = UserPublicSerializer
     permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
@@ -39,11 +40,13 @@ class UserRetrieveAPIView(generics.RetrieveAPIView):
 
 class UserUpdateAPIView(generics.UpdateAPIView):
     queryset = User.objects.all()
+    serializer_class = UserUpdateSerializer
     permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
 
 
 class UserDestroyAPIView(generics.DestroyAPIView):
     queryset = User.objects.all()
+    serializer_class = UserPublicSerializer
     permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
 
 

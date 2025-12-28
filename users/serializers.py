@@ -1,4 +1,4 @@
-from rest_framework.fields import SerializerMethodField, CharField
+from rest_framework.fields import CharField, SerializerMethodField
 from rest_framework.serializers import ModelSerializer
 
 from users.models import Payments, User
@@ -30,6 +30,7 @@ class UserPublicSerializer(ModelSerializer):
 
 class UserPrivateSerializer(ModelSerializer):
     payments = SerializerMethodField()
+
     class Meta:
         model = User
         exclude = ("password",)
@@ -50,7 +51,3 @@ class UserUpdateSerializer(ModelSerializer):
             "first_name",
             "last_name",
         )
-
-
-
-
