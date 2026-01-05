@@ -1,11 +1,12 @@
 from rest_framework.fields import SerializerMethodField
 from rest_framework.serializers import ModelSerializer
 
-from lms.models import Course, Lesson
+from lms.models import Course, Lesson, Subscription
 from lms.validators import LinkValidator
 
 
 class CourseSerializer(ModelSerializer):
+    is_subscribe = SerializerMethodField()
     lessons = SerializerMethodField()
 
     class Meta:
@@ -15,6 +16,12 @@ class CourseSerializer(ModelSerializer):
     def get_lessons(self, obj):
         queryset = obj.lessons.all()
         return LessonSerializer(queryset, many=True).data
+
+    def get_is_subscribe(self, obj):
+        user = self.context["request"].user
+        if not user.is_authenticated:
+            return False
+        return Subscription.objects.filter(user=user, course=obj).exists()
 
 
 class LessonSerializer(ModelSerializer):
@@ -34,3 +41,5 @@ class CourseDetailSerializer(ModelSerializer):
 
     def get_count_lessons(self, obj):
         return obj.lessons.count()
+
+
