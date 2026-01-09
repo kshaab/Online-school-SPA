@@ -8,6 +8,7 @@ from users.models import Payments, User
 from users.permissions import IsOwnerOrReadOnly
 from users.serializers import (PaymentsSerializer, UserCreateSerializer, UserPrivateSerializer, UserPublicSerializer,
                                UserUpdateSerializer)
+from users.services import create_stripe_price, create_stripe_session, create_stripe_product
 
 
 class UserCreateAPIView(generics.CreateAPIView):
@@ -60,3 +61,16 @@ class PaymentsViewSet(ModelViewSet):
         "paid_lesson",
         "payment_method",
     )
+
+    def perform_create(self, serializer):
+        payment = serializer.save(user=self.request.user)
+        if payment.payment_method == "stripe":
+            amount = payment.payment_amount
+            product_name = payment.paid_course.name
+            product = create_stripe_product(product_name)
+            price = create_stripe_price(payment_amount=amount, product_id=product["id"])
+            session_id, payment_link = create_stripe_session(price["id"])
+            payment.stripe_session_id = session_id
+            payment.stripe_link = payment_link
+            payment.save()
+

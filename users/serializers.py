@@ -7,7 +7,7 @@ from users.models import Payments, User
 class PaymentsSerializer(ModelSerializer):
     class Meta:
         model = Payments
-        fields = ("payment_date", "payment_amount", "payment_method")
+        fields = "__all__"
 
 
 class UserCreateSerializer(ModelSerializer):

@@ -27,6 +27,7 @@ class Payments(models.Model):
     PAYMENT_METHOD_CHOICES = [
         ("cash", "Наличными"),
         ("credit_card", "Перевод на счет"),
+        ("stripe", "Stripe"),
     ]
     user = ForeignKey(to=User, verbose_name="Плательщик", on_delete=models.SET_NULL, null=True)
     payment_date = models.DateField(auto_now=True, verbose_name="Дата оплаты")
@@ -36,8 +37,11 @@ class Payments(models.Model):
     paid_lesson = models.ForeignKey(
         to=Lesson, on_delete=models.SET_NULL, blank=True, null=True, verbose_name="Оплаченный урок"
     )
-    payment_amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Сумма оплаты")
+    payment_amount = models.PositiveIntegerField(verbose_name="Сумма оплаты")
     payment_method = models.CharField(max_length=20, verbose_name="Способ оплаты", choices=PAYMENT_METHOD_CHOICES)
+    stripe_session_id = models.CharField(max_length=255, blank=True, null=True, verbose_name="ID сессии")
+    stripe_payment_intent_id = models.CharField(max_length=255, null=True, blank=True)
+    stripe_link = models.URLField(max_length=2000, blank=True, null=True, verbose_name="Ссылка на оплату")
 
     class Meta:
         verbose_name = "Платеж"
@@ -45,3 +49,4 @@ class Payments(models.Model):
 
     def __str__(self):
         return f"{self.user} – {self.payment_amount}"
+

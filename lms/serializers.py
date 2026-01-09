@@ -41,3 +41,9 @@ class CourseDetailSerializer(ModelSerializer):
 
     def get_count_lessons(self, obj):
         return obj.lesson_set.count()
+
+
+class SubscriptionSerializer(ModelSerializer):
+    class Meta:
+        model = Subscription
+        fields = "__all__"
