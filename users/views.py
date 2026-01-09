@@ -10,14 +10,9 @@ from rest_framework.viewsets import ModelViewSet
 
 from users.models import Payments, User
 from users.permissions import IsOwnerOrReadOnly
-from users.serializers import (
-    PaymentsSerializer,
-    UserCreateSerializer,
-    UserPrivateSerializer,
-    UserPublicSerializer,
-    UserUpdateSerializer,
-)
-from users.services import create_stripe_price, create_stripe_session, create_stripe_product, retrieve_stripe_session
+from users.serializers import (PaymentsSerializer, UserCreateSerializer, UserPrivateSerializer, UserPublicSerializer,
+                               UserUpdateSerializer)
+from users.services import create_stripe_price, create_stripe_product, create_stripe_session, retrieve_stripe_session
 
 
 @extend_schema(

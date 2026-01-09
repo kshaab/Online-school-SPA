@@ -1,7 +1,7 @@
 from typing import List, Type
 
-from drf_spectacular.utils import extend_schema_view, extend_schema
-from rest_framework import generics, status, permissions
+from drf_spectacular.utils import extend_schema, extend_schema_view
+from rest_framework import generics, permissions, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.serializers import Serializer
