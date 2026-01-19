@@ -1,6 +1,5 @@
 from datetime import timedelta
 from typing import List, Type
-from lms.tasks import send_info_about_updates
 
 from django.utils.timezone import now
 from drf_spectacular.utils import extend_schema, extend_schema_view
@@ -13,6 +12,7 @@ from rest_framework.viewsets import ModelViewSet
 from lms.models import Course, Lesson, Subscription
 from lms.paginators import CustomPagination
 from lms.serializers import CourseDetailSerializer, CourseSerializer, LessonSerializer, SubscriptionSerializer
+from lms.tasks import send_info_about_updates
 from users.permissions import IsModer, IsOwner
 
 
@@ -92,7 +92,6 @@ class CourseViewSet(ModelViewSet):
             send_info_about_updates.delay(course.id)
 
 
-
 @extend_schema(
     summary="Создание урока",
     description="Создает новый урок и привязывает его к текущему пользователю.",
@@ -164,7 +163,6 @@ class LessonUpdateApiView(generics.UpdateAPIView):
             send_info_about_updates.delay(course.id)
 
 
-
 @extend_schema(
     summary="Удаление урока",
     description="Удаляет урок. Только владелец или модератор.",
@@ -208,5 +206,3 @@ class SubscriptionCreateApiView(generics.CreateAPIView):
             Subscription.objects.create(owner=user, course=course_item)
             message = "Подписка добавлена"
             return Response({"message": message}, status=status.HTTP_201_CREATED)
-
-

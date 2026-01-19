@@ -2,6 +2,7 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
+from celery.schedules import crontab
 from dotenv import load_dotenv
 
 load_dotenv(override=True)
@@ -149,10 +150,9 @@ DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
 SERVER_EMAIL = os.getenv("SERVER_EMAIL")
 
 
-# CELERY_BEAT_SCHEDULE = {
-#     'task-name': {
-#         'task': 'myapp.tasks.my_task',  # Путь к задаче
-#         'schedule': timedelta(minutes=10),  # Расписание выполнения задачи (например, каждые 10 минут)
-#     },
-# }
-
+CELERY_BEAT_SCHEDULE = {
+    "block_inactive_user": {
+        "task": "users.tasks.block_inactive_user",
+        "schedule": crontab(hour=3, minute=0),
+    },
+}
