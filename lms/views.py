@@ -1,5 +1,7 @@
+from datetime import timedelta
 from typing import List, Type
 
+from django.utils.timezone import now
 from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import generics, permissions, status
 from rest_framework.permissions import IsAuthenticated
@@ -10,6 +12,7 @@ from rest_framework.viewsets import ModelViewSet
 from lms.models import Course, Lesson, Subscription
 from lms.paginators import CustomPagination
 from lms.serializers import CourseDetailSerializer, CourseSerializer, LessonSerializer, SubscriptionSerializer
+from lms.tasks import send_info_about_updates
 from users.permissions import IsModer, IsOwner
 
 
@@ -79,6 +82,15 @@ class CourseViewSet(ModelViewSet):
         course.owner = self.request.user
         course.save()
 
+    def perform_update(self, serializer: Serializer) -> None:
+        """Проверяет обновления курса и отправляет письмо при наличии обновлений"""
+        course = self.get_object()
+        last_update = course.updated_at
+        serializer.save()
+
+        if last_update and now() - last_update >= timedelta(hours=4):
+            send_info_about_updates.delay(course.id)
+
 
 @extend_schema(
     summary="Создание урока",
@@ -137,6 +149,18 @@ class LessonUpdateApiView(generics.UpdateAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
     permission_classes = [IsOwner | IsModer]
+
+    def perform_update(self, serializer: Serializer) -> None:
+        """Проверяет обновления уроков в курсе и отправляет уведомление при наличии"""
+        lesson = self.get_object()
+        course = lesson.course
+
+        last_update = course.updated_at
+
+        serializer.save()
+
+        if last_update and now() - last_update >= timedelta(hours=4):
+            send_info_about_updates.delay(course.id)
 
 
 @extend_schema(

@@ -6,9 +6,8 @@ authors = [
     {name = "Ксения",email = "kssshaab@gmail.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.10,<4.0"
 dependencies = [
-    "django (>=6.0,<7.0)",
     "psycopg2-binary (>=2.9.11,<3.0.0)",
     "dotenv (>=0.9.9,<0.10.0)",
     "djangorestframework (>=3.16.1,<4.0.0)",
@@ -18,6 +17,10 @@ dependencies = [
     "coverage (>=7.13.1,<8.0.0)",
     "drf-spectacular (>=0.29.0,<0.30.0)",
     "stripe (>=14.1.0,<15.0.0)",
+    "celery (>=5.6.2,<6.0.0)",
+    "django (>=4.2,<6.0)",
+    "django-celery-beat (>=2.8.1,<3.0.0)",
+    "redis (>=7.1.0,<8.0.0)",
 ]
 
 

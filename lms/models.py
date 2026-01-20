@@ -15,6 +15,7 @@ class Course(models.Model):
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, verbose_name="Владелец курса", blank=True, null=True
     )
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Обновление курса")
 
     class Meta:
         verbose_name = "Курс"
