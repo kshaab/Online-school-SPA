@@ -32,15 +32,18 @@ jobs:
         image: postgres:17
         env:
           POSTGRES_DB: online_school
-          POSTGRES_USER: test
-          POSTGRES_PASSWORD: test
-          HOST: postgres
-          PORT: 5432
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
         ports:
           - 5432:5432
 
     env:
-      DATABASE_URL: postgres://test:test@postgres:5432/test
+      POSTGRES_DB: online_school
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      HOST: postgres
+      PORT: 5432
+      SECRET_KEY: testsecretkey
 
     steps:
     - name: Check out code
