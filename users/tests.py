@@ -62,14 +62,14 @@ class PaymentsTestCase(APITestCase):
         self.user.set_password("12345")
         self.user.save()
         self.payments = Payments.objects.create(
-            payment_date="2025-01-25", payment_amount="10000.00", payment_method="credit_card"
+            payment_date="2025-01-25", payment_amount=10000.00, payment_method="credit_card"
         )
         self.client.force_authenticate(user=self.user)
 
     def test_payment_create(self) -> None:
         """Тестирует создание платежа."""
         url = reverse("users:payments-list")
-        data = {"payment_date": "2025-02-25", "payment_amount": "12000.00", "payment_method": "credit_card"}
+        data = {"payment_date": "2025-02-25", "payment_amount": 12000.00, "payment_method": "credit_card"}
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Payments.objects.all().count(), 2)
@@ -85,11 +85,11 @@ class PaymentsTestCase(APITestCase):
     def test_payment_update(self) -> None:
         """Тестирует редактирование платежа."""
         url = reverse("users:payments-detail", args=(self.payments.id,))
-        data = {"payment_date": "2025-03-25", "payment_amount": "15000.00", "payment_method": "cash"}
+        data = {"payment_date": "2025-03-25", "payment_amount": 15000.00, "payment_method": "cash"}
         response = self.client.patch(url, data)
         data = response.json()
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(data["payment_amount"], "15000.00")
+        self.assertEqual(data["payment_amount"], 15000.00)
 
     def test_user_delete(self) -> None:
         """Тестирует удаление платежа."""
@@ -103,6 +103,6 @@ class PaymentsTestCase(APITestCase):
         url = reverse("users:payments-list")
         response = self.client.get(url)
         data = response.json()
-        result = [{"payment_date": "2026-01-05", "payment_amount": "10000.00", "payment_method": "credit_card"}]
+        result = [{"payment_date": "2026-01-05", "payment_amount": 10000.00, "payment_method": "credit_card"}]
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(data, result)
