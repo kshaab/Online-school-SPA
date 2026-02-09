@@ -20,6 +20,7 @@ services:
         networks:
             - app_network
     db:
+        hostname: db
         restart: always
         image: postgres:17
         env_file:

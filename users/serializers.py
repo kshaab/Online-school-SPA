@@ -9,7 +9,11 @@ from users.models import Payments, User
 class PaymentsSerializer(ModelSerializer):
     class Meta:
         model = Payments
-        fields = "__all__"
+        fields = (
+            "payment_date",
+            "payment_amount",
+            "payment_method"
+        )
 
 
 class UserCreateSerializer(ModelSerializer):

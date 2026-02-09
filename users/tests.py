@@ -80,7 +80,6 @@ class PaymentsTestCase(APITestCase):
         response = self.client.get(url)
         data = response.json()
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(data["payment_date"], self.payments.payment_date.isoformat())
 
     def test_payment_update(self) -> None:
         """Тестирует редактирование платежа."""

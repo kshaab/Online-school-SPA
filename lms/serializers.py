@@ -13,8 +13,13 @@ class CourseSerializer(ModelSerializer):
 
     class Meta:
         model = Course
-        fields = "__all__"
-        exclude = ("updated_at",)
+        fields = (
+            "id",
+            "name",
+            "preview",
+            "description",
+            "owner"
+        )
 
     def get_lessons(self, obj: Course) -> List[Dict]:
         """Возвращает список уроков для курса."""
