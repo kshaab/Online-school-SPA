@@ -78,7 +78,6 @@ class PaymentsTestCase(APITestCase):
         """Тестирует отображение одного платежа."""
         url = reverse("users:payments-detail", args=(self.payments.id,))
         response = self.client.get(url)
-        data = response.json()
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_payment_update(self) -> None:
