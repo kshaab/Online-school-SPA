@@ -105,11 +105,16 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.SSH_KEY }}
 
+    - name: Debug SSH key fingerprint
+      run: |
+        echo "${{ secrets.SSH_KEY }}" > key
+        chmod 600 key
+        ssh-keygen -lf key
+
     - name: Deploy to Server
       run: |
         ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-          docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/myapp:${{ github.sha }}
-          docker stop myapp || true
-          docker rm myapp || true
-          docker run -d --name myapp -p 80:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/myapp:${{ github.sha }}
+          cd ${{ secrets.DEPLOY_DIR }}
+          docker compose pull
+          docker compose up -d --build
         EOF
