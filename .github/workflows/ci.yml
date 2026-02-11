@@ -112,6 +112,6 @@ jobs:
 
           ssh -i key -o StrictHostKeyChecking=no kshaab@${{ secrets.SERVER_IP }} << 'EOF'
             cd ${{ secrets.DEPLOY_DIR }}
-            docker-compose pull
-            docker-compose up -d --build
+            docker compose pull
+            docker compose up -d --build
           EOF
