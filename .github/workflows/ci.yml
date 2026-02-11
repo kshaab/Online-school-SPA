@@ -83,6 +83,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: DEBUG FILES
+        run: |
+          pwd
+          ls -la
       - name: Check out code
         uses: actions/checkout@v3
 
