@@ -83,12 +83,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
       - name: DEBUG FILES
         run: |
           pwd
           ls -la
-      - name: Check out code
-        uses: actions/checkout@v3
 
       - name: Log in to Docker Hub
         run: echo ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }} | docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
