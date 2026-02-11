@@ -25,6 +25,7 @@ class User(AbstractUser):
 
 
 class Payments(models.Model):
+    """Модель платежей"""
     PAYMENT_METHOD_CHOICES = [
         ("cash", "Наличными"),
         ("credit_card", "Перевод на счет"),
