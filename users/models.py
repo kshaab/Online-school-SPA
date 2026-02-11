@@ -6,6 +6,7 @@ from lms.models import Course, Lesson
 
 
 class User(AbstractUser):
+    """Модель пользователя"""
     username = None
     email = models.EmailField(unique=True, verbose_name="Email")
     phone_number = models.CharField(max_length=20, verbose_name="Телефон", blank=True, null=True)
