@@ -46,6 +46,7 @@
 
 - Python 3.13
 - Django 5.x
+- Django REST Framework
 - PostgreSQL
 - Redis
 - Celery
@@ -68,7 +69,7 @@ online_school/
 
 1. Клонирование репозитория: 
 ```bash
-git clone https://github.com/kshaab/Online-school-SPA
+git clone https://github.com/kshaab/Online-School-SPA
 cd online_school
 ```
 2. Установка зависимостей и активация виртуальное окружения:
@@ -115,6 +116,7 @@ python manage.py runserver
 ## Зависимости
 
 Управление зависимостями осуществляется через Poetry.
+
 Файл конфигурации: `pyproject.toml` 
 
 ## Celery
